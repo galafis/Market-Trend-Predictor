@@ -1,15 +1,10 @@
 # Market-Trend-Predictor
 
-<p align="center">
-  <a href="#"><img alt="Build Status" src="https://img.shields.io/badge/build-passing-brightgreen"></a>
-  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-blue.svg"></a>
-  <a href="#"><img alt="Python" src="https://img.shields.io/badge/Python-3.9%2B-3776AB"></a>
-  <a href="#"><img alt="R" src="https://img.shields.io/badge/R-4.0%2B-276DC3"></a>
-</p>
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](#) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) ![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB) ![R](https://img.shields.io/badge/R-4.0%2B-276DC3)
 
 A unified toolkit for market trend analysis and prediction with Python and R. Includes a modern web interface, live data ingestion, and reproducible analytics for research and prototyping.
 
-- English • Português (veja a seção em português abaixo)
+•  English • Português (veja a seção em português abaixo)
 
 ---
 
@@ -17,6 +12,53 @@ A unified toolkit for market trend analysis and prediction with Python and R. In
 
 ### Overview
 Market-Trend-Predictor provides end-to-end components to fetch market data, engineer features, train predictive models, and visualize insights through a responsive web UI. It is designed for clarity, extensibility, and professional workflows.
+
+---
+
+## Visual Pipeline and Architecture
+
+### Main Analysis Pipeline (Flowchart)
+
+```mermaid
+flowchart LR
+    A[Data Collection\nAPIs: Yahoo, Alpha Vantage] --> B[Processing\nCleaning, resampling, features]
+    B --> C[Modeling\nSKLearn/Keras models]
+    C --> D[Evaluation\nMetrics, backtests]
+    D --> E[Visualization\nDashboard, charts]
+```
+
+### High-Level Architecture
+
+```mermaid
+graph TD
+    UI[Web UI (index.html, app.js)] --> API[Backend API (Flask/FastAPI)]
+    API --> Store[(SQLite / Cache)]
+    API --> Py[Python Core\nmarket_predictor.py]
+    Py --> R[Analytics (R scripts)]
+    Py --> Data[Data Directory\nraw / processed]
+    Ext[External Data\nYahoo/AlphaVantage] --> Py
+```
+
+### Example Outputs
+
+- Model performance (classification):
+
+```
+Accuracy: 0.78 | Precision: 0.75 | Recall: 0.72 | F1: 0.73
+ROC-AUC: 0.81 | PR-AUC: 0.79
+```
+
+- Sample prediction vs. actual trend (PNG):
+
+![Model Prediction vs Actual (Sample)](https://dummyimage.com/960x360/0d1117/ffffff.png&text=Prediction+vs+Actual+Sample)
+
+- Feature correlation heatmap (SVG):
+
+<img alt="Correlation Heatmap" src="https://dummyimage.com/720x360/161b22/20c997.png&text=Correlation+Heatmap+(example)" width="720" />
+
+Note: Replace dummy images with generated artifacts from analytics.R or notebooks when available.
+
+---
 
 ### Author
 - Gabriel Demetrios Lafis  
@@ -33,7 +75,7 @@ Market-Trend-Predictor provides end-to-end components to fetch market data, engi
 - Data Sources: Yahoo Finance, Alpha Vantage (APIs)
 
 ### Repository Structure
-```text
+```
 Market-Trend-Predictor/
 ├── market_predictor.py   # Main Python application
 ├── requirements.txt      # Python dependencies
@@ -60,13 +102,13 @@ Market-Trend-Predictor/
 Prerequisites: Python 3.9+, R 4.0+, and API keys if using live data.
 
 1) Clone and enter the project directory
-```bash
+```
 git clone https://github.com/galafis/Market-Trend-Predictor.git
 cd Market-Trend-Predictor
 ```
 
 2) Python environment
-```bash
+```
 python -m venv venv
 # macOS/Linux
 source venv/bin/activate
@@ -76,7 +118,7 @@ pip install -r requirements.txt
 ```
 
 3) R packages
-```bash
+```
 Rscript -e "install.packages(c('ggplot2','dplyr','corrplot','plotly'), repos='https://cloud.r-project.org')"
 ```
 
@@ -88,17 +130,26 @@ Create or edit config.py and set:
 - Web server host/port
 
 Example config.py (minimal):
-```python
+```
 API_KEYS = {
-    'ALPHA_VANTAGE': 'YOUR_KEY_HERE'
+  'ALPHA_VANTAGE': 'YOUR_KEY_HERE'
 }
-SERVER = {'HOST': '127.0.0.1', 'PORT': 8000}
-MODEL = {'LOOKBACK_DAYS': 60, 'TRAIN_TEST_SPLIT': 0.8}
-DATA_DIRS = {'RAW': 'data/raw', 'PROCESSED': 'data/processed'}
+SERVER = {
+  'HOST': '127.0.0.1',
+  'PORT': 8000
+}
+MODEL = {
+  'LOOKBACK_DAYS': 60,
+  'TRAIN_TEST_SPLIT': 0.8
+}
+DATA_DIRS = {
+  'RAW': 'data/raw',
+  'PROCESSED': 'data/processed'
+}
 ```
 
 5) Run
-```bash
+```
 python market_predictor.py
 # Open http://localhost:8000
 ```
@@ -131,13 +182,11 @@ plot_correlation('data/processed/aapl.csv')
 
 ### Contributing
 Contributions are welcome! Please:
-1) Open an issue describing the change/feature and rationale.  
-2) Fork the repo and create a feature branch: `git checkout -b feat/short-description`.  
-3) Add tests or examples when applicable.  
-4) Ensure formatting and pass linting.  
-5) Open a pull request referencing the issue and provide a clear description and screenshots/GIFs when UI changes are involved.
-
-For larger changes, propose a design in the issue first.
+1. Open an issue describing the change/feature and rationale.
+2. Fork the repo and create a feature branch: `git checkout -b feat/short-description`.
+3. Add tests or examples when applicable.
+4. Ensure formatting and pass linting.
+5. Open a pull request referencing the issue and provide a clear description and screenshots/GIFs when UI changes are involved.
 
 ### License
 MIT License. See LICENSE for details.
@@ -149,11 +198,47 @@ MIT License. See LICENSE for details.
 ### Visão Geral
 O Market-Trend-Predictor oferece componentes de ponta a ponta para obter dados de mercado, criar features, treinar modelos preditivos e visualizar insights em uma interface web responsiva. Foi projetado para clareza, extensibilidade e fluxos profissionais.
 
-### Autor
-- Gabriel Demetrios Lafis  
-  Email: gabrieldemetrios@gmail.com  
-  LinkedIn: https://www.linkedin.com/in/gabriel-demetrios-lafis-62197711b  
-  GitHub: https://github.com/galafis
+## Pipeline e Arquitetura (Visual)
+
+### Fluxo Principal de Análise (Fluxograma)
+
+```mermaid
+flowchart LR
+    A[Coleta de Dados\nAPIs: Yahoo, Alpha Vantage] --> B[Processamento\nLimpeza, amostragem, features]
+    B --> C[Modelagem\nModelos SKLearn/Keras]
+    C --> D[Avaliação\nMétricas, backtests]
+    D --> E[Visualização\nDashboard, gráficos]
+```
+
+### Arquitetura de Alto Nível
+
+```mermaid
+graph TD
+    UI[Web UI (index.html, app.js)] --> API[Backend (Flask/FastAPI)]
+    API --> Store[(SQLite / Cache)]
+    API --> Py[Núcleo Python\nmarket_predictor.py]
+    Py --> R[Analytics (scripts R)]
+    Py --> Data[Dados\nraw / processed]
+    Ext[Dados Externos\nYahoo/AlphaVantage] --> Py
+```
+
+### Exemplos de Saída
+
+- Desempenho do modelo (classificação):
+```
+Acurácia: 0.78 | Precisão: 0.75 | Revocação: 0.72 | F1: 0.73
+ROC-AUC: 0.81 | PR-AUC: 0.79
+```
+
+- Predição vs. tendência real (PNG):
+
+![Predição vs Real (Exemplo)](https://dummyimage.com/960x360/0d1117/ffffff.png&text=Predicao+vs+Real+Exemplo)
+
+- Mapa de calor de correlação (SVG):
+
+<img alt="Mapa de Correlacao" src="https://dummyimage.com/720x360/161b22/20c997.png&text=Mapa+de+Correlacao+(exemplo)" width="720" />
+
+Nota: Substitua as imagens dummy por artefatos gerados via analytics.R quando disponíveis.
 
 ### Tecnologias
 - Backend: Python, Flask/FastAPI, SQLite
@@ -164,7 +249,7 @@ O Market-Trend-Predictor oferece componentes de ponta a ponta para obter dados d
 - Fontes de Dados: Yahoo Finance, Alpha Vantage (APIs)
 
 ### Estrutura do Repositório
-```text
+```
 Market-Trend-Predictor/
 ├── market_predictor.py   # Aplicação principal em Python
 ├── requirements.txt      # Dependências Python
@@ -191,13 +276,13 @@ Market-Trend-Predictor/
 Pré-requisitos: Python 3.9+, R 4.0+ e chaves de API para dados ao vivo.
 
 1) Clonar e entrar no diretório
-```bash
+```
 git clone https://github.com/galafis/Market-Trend-Predictor.git
 cd Market-Trend-Predictor
 ```
 
 2) Ambiente Python
-```bash
+```
 python -m venv venv
 # macOS/Linux
 source venv/bin/activate
@@ -207,7 +292,7 @@ pip install -r requirements.txt
 ```
 
 3) Pacotes R
-```bash
+```
 Rscript -e "install.packages(c('ggplot2','dplyr','corrplot','plotly'), repos='https://cloud.r-project.org')"
 ```
 
@@ -219,17 +304,26 @@ Crie ou edite o config.py e defina:
 - Host/porta do servidor web
 
 Exemplo mínimo de config.py:
-```python
+```
 API_KEYS = {
-    'ALPHA_VANTAGE': 'SUA_CHAVE_AQUI'
+  'ALPHA_VANTAGE': 'SUA_CHAVE_AQUI'
 }
-SERVER = {'HOST': '127.0.0.1', 'PORT': 8000}
-MODEL = {'LOOKBACK_DAYS': 60, 'TRAIN_TEST_SPLIT': 0.8}
-DATA_DIRS = {'RAW': 'data/raw', 'PROCESSED': 'data/processed'}
+SERVER = {
+  'HOST': '127.0.0.1',
+  'PORT': 8000
+}
+MODEL = {
+  'LOOKBACK_DAYS': 60,
+  'TRAIN_TEST_SPLIT': 0.8
+}
+DATA_DIRS = {
+  'RAW': 'data/raw',
+  'PROCESSED': 'data/processed'
+}
 ```
 
 5) Executar
-```bash
+```
 python market_predictor.py
 # Abra http://localhost:8000
 ```
@@ -262,16 +356,14 @@ plot_correlation('data/processed/petr4.csv')
 
 ### Contribuição
 Contribuições são bem-vindas! Por favor:
-1) Abra uma issue descrevendo a mudança/feature e motivação.  
-2) Faça um fork e crie uma branch: `git checkout -b feat/descricao-curta`.  
-3) Adicione testes ou exemplos quando aplicável.  
-4) Garanta formatação e linting.  
-5) Abra um pull request referenciando a issue, com descrição clara e evidências visuais quando houver mudanças de UI.
+1. Abra uma issue descrevendo a mudança/feature e motivação.
+2. Faça um fork e crie uma branch: `git checkout -b feat/descricao-curta`.
+3. Adicione testes ou exemplos quando aplicável.
+4. Garanta formatação e linting.
+5. Abra um pull request referenciando a issue, com descrição clara e evidências visuais quando houver mudanças de UI.
 
 ### Licença
 Licença MIT. Veja o arquivo LICENSE.
-
----
 
 ### Audit Report - Repository Corrections
 - FIXED: Added requirements.txt and config.py
