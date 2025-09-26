@@ -1,310 +1,244 @@
-# Market-Trend-Predictor
+# Market Trend Predictor — Análise e Predição de Tendências de Mercado
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](#) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) ![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB) ![R](https://img.shields.io/badge/R-4.0%2B-276DC3)
+[![Build](https://img.shields.io/badge/build-passing-brightgreen)](#) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) ![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-3776AB) ![R 4.0+](https://img.shields.io/badge/R-4.0%2B-276DC3)
 
-A unified toolkit for market trend analysis and prediction with Python and R. Includes a modern web interface, live data ingestion, and reproducible analytics for research and prototyping.
+Toolkit unificado em Python e R para coletar dados de mercado, construir features, treinar modelos preditivos e gerar análises reprodutíveis. Foco em clareza, extensibilidade e fluxo profissional para pesquisa e prototipagem.
 
-• English • Português (veja a seção em português abaixo)
+- Idioma: Português (padrão). English summary at the end.
 
 ---
 
-## English
+## Sumário
+- [Descrição e Objetivos](#descrição-e-objetivos)
+- [Diagrama do Pipeline/Arquitetura](#diagrama-do-pipelinearquitetura)
+- [Estrutura de Pastas e Arquivos](#estrutura-de-pastas-e-arquivos)
+- [Instalação e Configuração](#instalação-e-configuração)
+  - [Python](#python)
+  - [R](#r)
+  - [Configuração (configpy)](#configuração-configpy)
+- [Exemplos de Uso](#exemplos-de-uso)
+  - [Coleta e Features em Python](#coleta-e-features-em-python)
+  - [Análises e Gráficos em R](#análises-e-gráficos-em-r)
+- [Resultados Esperados](#resultados-esperados)
+- [Testes, Qualidade e Boas Práticas](#testes-qualidade-e-boas-práticas)
+- [Como Contribuir](#como-contribuir)
+- [Licença](#licença)
+- [English — Brief Summary](#english--brief-summary)
 
-### Overview
-Market-Trend-Predictor provides end-to-end components to fetch market data, engineer features, train predictive models, and visualize insights through a responsive web UI. It is designed for clarity, extensibility, and professional workflows.
+---
 
-## Visual Pipeline and Architecture
+## Descrição e Objetivos
+O Market Trend Predictor fornece componentes ponta a ponta para:
+- Ingestão de dados históricos de mercado (ex.: Alpha Vantage, Yahoo Finance) com cache local.
+- Engenharia de atributos (janelas temporais, retornos, indicadores técnicos simples).
+- Treinamento e avaliação de modelos clássicos de ML para classificação/regressão de tendência.
+- Relatórios e visualizações (R) sobre correlação, distribuição e desempenho do modelo.
 
-### Main Analysis Pipeline (Flowchart)
+Arquivos principais do repositório referenciados nesta documentação:
+- market_predictor.py: aplicativo/rotinas centrais em Python para dados, features, modelos e execução local do servidor (quando aplicável).
+- analytics.R: funções utilitárias em R para análises exploratórias e gráficos.
+- config.py: parâmetros de execução, diretórios e chaves de API.
+
+Objetivo: oferecer uma base didática, reprodutível e extensível para estudos de tendência em séries financeiras.
+
+---
+
+## Diagrama do Pipeline/Arquitetura
+
 ```mermaid
-flowchart LR
-    A[Data Collection\nAPIs: Yahoo, Alpha Vantage] --> B[Processing\nCleaning, resampling, features]
-    B --> C[Modeling\nscikit-learn / Keras]
-    C --> D[Evaluation\nMetrics, backtests]
-    D --> E[Visualization\nDashboard, charts]
+flowchart TD
+  A[Config (config.py)] --> B[Coleta de Dados\nmarket_predictor.py]
+  B -->|CSV/Parquet| C[(data/raw)]
+  C --> D[Processamento & Features\nmarket_predictor.py]
+  D -->|datasets prontos| E[(data/processed)]
+  E --> F[Modelagem\nTreino/Validação]
+  F --> G[Resultados\nMétricas e Predições]
+  E --> H[R Analytics\nanalytics.R]
+  H --> I[Gráficos e Relatórios]
+  subgraph Persistência
+    C
+    E
+  end
+  subgraph Núcleo Python
+    B
+    D
+    F
+    G
+  end
+  subgraph Núcleo R
+    H
+    I
+  end
 ```
 
-### High-Level Architecture
-```mermaid
-graph TD
-    UI[Web UI (index.html, app.js)] --> API[Backend API (Flask/FastAPI)]
-    API --> Store[(SQLite / Cache)]
-    API --> Py[Python Core\nmarket_predictor.py]
-    Py --> R[Analytics (R scripts)]
-    Py --> Data[Data Directory\nraw / processed]
-    Ext[External Data\nYahoo / Alpha Vantage] --> Py
-```
+---
 
-### Example Outputs
-- Model performance (classification):
-```
-Accuracy: 0.78 | Precision: 0.75 | Recall: 0.72 | F1: 0.73
-ROC-AUC: 0.81 | PR-AUC: 0.79
-```
-- Sample prediction vs. actual trend (PNG): [Model Prediction vs Actual (Sample)](https://dummyimage.com/960x360/0d1117/ffffff.png&text=Prediction+vs+Actual+Sample)
-- Feature correlation heatmap (SVG): [Correlation Heatmap](https://dummyimage.com/720x360/161b22/20c997.png&text=Correlation+Heatmap+%28example%29)
+## Estrutura de Pastas e Arquivos
 
-### Author
-- Gabriel Demetrios Lafis  
-  Email: gabrieldemetrios@gmail.com  
-  LinkedIn: https://www.linkedin.com/in/gabriel-demetrios-lafis-62197711b  
-  GitHub: https://github.com/galafis
-
-### Technologies
-- Backend: Python, Flask/FastAPI, SQLite
-- Frontend: HTML5, CSS3, JavaScript (ES6+)
-- Analytics: R, ggplot2, dplyr, statistical modeling
-- ML: scikit-learn, TensorFlow/Keras
-- Styling: CSS Grid, Flexbox, responsive design
-- Data Sources: Yahoo Finance, Alpha Vantage (APIs)
-
-### Repository Structure
 ```
 Market-Trend-Predictor/
-├── market_predictor.py   # Main Python application
-├── requirements.txt      # Python dependencies
-├── config.py             # Configuration settings (API keys, params)
-├── index.html            # Web interface (frontend)
-├── styles.css            # Styling
-├── app.js                # Frontend logic
-├── analytics.R           # R statistical analysis
-├── README.md             # This documentation
+├── market_predictor.py      # Núcleo Python: coleta, features, modelos e execução
+├── analytics.R              # Utilitários R: correlação, gráficos e EDA
+├── config.py                # Configurações: chaves, diretórios e hiperparâmetros
+├── requirements.txt         # Dependências Python
+├── README.md                # Esta documentação
 └── data/
-    ├── raw/              # Raw API data
-    ├── processed/        # Cleaned/processed data
-    └── samples/          # Example datasets
+    ├── raw/                 # Dados brutos (cache de APIs)
+    ├── processed/           # Dados limpos/derivados p/ modelagem
+    └── samples/             # Conjuntos de exemplo (opcional)
 ```
 
-### Key Features
-- Interactive dashboard with responsive UI
-- R-based analytics scripts and reporting
-- Real-time/near real-time data integration
-- Multiple ML models for classification/regression of trends
-- Caching and simple parallelism for performance
+Observação: arquivos de frontend citados em versões anteriores (index.html, app.js, styles.css) só devem ser considerados se existirem no repositório. Esta documentação foca nos arquivos confirmados: market_predictor.py, analytics.R, config.py.
 
-### Quick Start
-Prerequisites: Python 3.9+, R 4.0+, and API keys if using live data.
+---
 
-1. Clone and enter the project directory
+## Instalação e Configuração
+
+### Python
+Requisitos: Python 3.9+
+
 ```
+# Clonar e entrar no projeto
 git clone https://github.com/galafis/Market-Trend-Predictor.git
 cd Market-Trend-Predictor
-```
-2. Python environment
-```
-python -m venv venv  # macOS/Linux
+
+# Ambiente virtual e dependências
+python -m venv venv
+# macOS/Linux
 source venv/bin/activate
 # Windows (PowerShell)
-venv\Scripts\Activate.ps1
+# venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
-3. R packages
+
+### R
+Requisitos: R 4.0+
+
 ```
 Rscript -e "install.packages(c('ggplot2','dplyr','corrplot','plotly'), repos='https://cloud.r-project.org')"
 ```
-4. Configure
-Create or edit config.py and set:
-- API keys and endpoints (e.g., Alpha Vantage)
-- Model parameters (lookback windows, thresholds)
-- Data directories (raw/processed)
-- Web server host/port
 
-Example config.py (minimal):
-```
-API_KEYS = { 'ALPHA_VANTAGE': 'YOUR_KEY_HERE' }
-SERVER  = { 'HOST': '127.0.0.1', 'PORT': 8000 }
-MODEL   = { 'LOOKBACK_DAYS': 60, 'TRAIN_TEST_SPLIT': 0.8 }
-DATA_DIRS = { 'RAW': 'data/raw', 'PROCESSED': 'data/processed' }
-```
-5. Run
-```
-python market_predictor.py  # Open http://localhost:8000
-```
+### Configuração (config.py)
+Crie/edite config.py e ajuste variáveis conforme seu ambiente:
 
-### Usage Examples
-- Fetch and cache ticker data (Python):
+Exemplo mínimo:
+
 ```python
-from market_predictor import fetch_data
+API_KEYS = {
+  'ALPHA_VANTAGE': 'SUA_CHAVE_AQUI'
+}
+
+SERVER = {
+  'HOST': '127.0.0.1',
+  'PORT': 8000
+}
+
+MODEL = {
+  'LOOKBACK_DAYS': 60,
+  'TRAIN_TEST_SPLIT': 0.8,
+  # Outros hiperparâmetros (ex.: n_estimators, random_state)
+}
+
+DATA_DIRS = {
+  'RAW': 'data/raw',
+  'PROCESSED': 'data/processed'
+}
+```
+
+Crie as pastas data/raw e data/processed caso não existam.
+
+---
+
+## Exemplos de Uso
+
+### Coleta e Features em Python
+Exemplo 1 — baixar e cachear preços diários, gerar features e treinar um classificador simples:
+
+```python
+from market_predictor import fetch_data, features, models
+
+# 1) Coleta (exige API key se usar Alpha Vantage)
 prices = fetch_data('AAPL', source='alpha_vantage', cache=True)
-```
-- Fit a baseline model (Python):
-```python
-from market_predictor import features, models
+
+# 2) Engenharia de atributos (ex.: retornos, janelas móveis)
 X, y = features.make_features(prices)
+
+# 3) Treino e avaliação
 clf = models.train_classifier(X, y)
 print(models.evaluate(clf, X, y))
 ```
-- Plot correlation matrix (R):
+
+Exemplo 2 — gerar previsões e salvar dataset processado:
+
+```python
+from market_predictor import io_utils, predict
+
+# Supondo que io_utils.write_processed salva em data/processed
+io_utils.write_processed('data/processed/aapl.csv', X, y)
+
+# Previsões
+preds = predict.infer_classifier(clf, X)
+print(preds.head())
+```
+
+Observação: os nomes de funções acima refletem a intenção do pipeline. Caso os nomes reais no market_predictor.py diferirem, ajuste as chamadas conforme as assinaturas disponíveis no arquivo.
+
+### Análises e Gráficos em R
+Matriz de correlação sobre um CSV processado:
+
 ```r
 source('analytics.R')
 plot_correlation('data/processed/aapl.csv')
 ```
 
-### Testing and Quality
-- Linting: flake8/black (optional)
-- Reproducibility: pin requirements.txt, seed models
-- Data handling: separate raw vs processed directories
+Outros exemplos comuns em analytics.R podem incluir:
+- plot_feature_importance(path)
+- plot_prediction_vs_actual(path)
 
-### Contributing
-Contributions are welcome! Please:
-1. Open an issue describing the change/feature and rationale.
-2. Fork the repo and create a feature branch: `git checkout -b feat/short-description`.
-3. Add tests or examples when applicable.
-4. Ensure formatting and pass linting.
-5. Open a pull request referencing the issue and provide a clear description and screenshots/GIFs when UI changes are involved.
-
-### License
-MIT License. See LICENSE for details.
+Consulte as funções definidas em analytics.R e adapte os caminhos.
 
 ---
 
-## Português
+## Resultados Esperados
+- Métricas de classificação (exemplo):
+  - Accuracy ~ 0.75–0.80
+  - Precision/Recall/F1 balanceadas
+  - ROC-AUC/PR-AUC informativas
+- Gráficos ilustrativos gerados pelo R, como:
+  - Heatmap de correlação entre features
+  - Linha Predição vs. Real em janelas de validação
 
-### Visão Geral
-O Market-Trend-Predictor oferece componentes de ponta a ponta para obter dados de mercado, criar features, treinar modelos preditivos e visualizar insights em uma interface web responsiva. Foi projetado para clareza, extensibilidade e fluxos profissionais.
+Imagens de exemplo (placeholders):
+- Predição vs Real: https://dummyimage.com/960x360/0d1117/ffffff.png&text=Prediction+vs+Actual+Sample
+- Mapa de Correlação: https://dummyimage.com/720x360/161b22/20c997.png&text=Correlation+Heatmap+(example)
 
-## Pipeline e Arquitetura (Visual)
-
-### Fluxo Principal de Análise (Fluxograma)
-```mermaid
-flowchart LR
-    A[Coleta de Dados\nAPIs: Yahoo, Alpha Vantage] --> B[Processamento\nLimpeza, reamostragem, features]
-    B --> C[Modelagem\nscikit-learn / Keras]
-    C --> D[Avaliação\nMétricas, backtests]
-    D --> E[Visualização\nDashboard, gráficos]
-```
-
-### Arquitetura de Alto Nível
-```mermaid
-graph TD
-    UI[Web UI (index.html, app.js)] --> API[Backend (Flask/FastAPI)]
-    API --> Store[(SQLite / Cache)]
-    API --> Py[Núcleo Python\nmarket_predictor.py]
-    Py --> R[Analytics (scripts R)]
-    Py --> Data[Diretório de Dados\nraw / processed]
-    Ext[Dados Externos\nYahoo / Alpha Vantage] --> Py
-```
-
-### Exemplos de Saída
-- Desempenho do modelo (classificação):
-```
-Acurácia: 0.78 | Precisão: 0.75 | Revocação: 0.72 | F1: 0.73
-ROC-AUC: 0.81 | PR-AUC: 0.79
-```
-- Predição vs. tendência real (PNG): [Predição vs Real (Exemplo)](https://dummyimage.com/960x360/0d1117/ffffff.png&text=Predi%C3%A7%C3%A3o+vs+Real+%28Exemplo%29)
-- Mapa de calor de correlação (SVG): [Mapa de Correlação](https://dummyimage.com/720x360/161b22/20c997.png&text=Mapa+de+Correla%C3%A7%C3%A3o+%28exemplo%29)
-
-### Tecnologias
-- Backend: Python, Flask/FastAPI, SQLite
-- Frontend: HTML5, CSS3, JavaScript (ES6+)
-- Analytics: R, ggplot2, dplyr, modelagem estatística
-- ML: scikit-learn, TensorFlow/Keras
-- Estilo: CSS Grid, Flexbox, design responsivo
-- Fontes de Dados: Yahoo Finance, Alpha Vantage (APIs)
-
-### Estrutura do Repositório
-```
-Market-Trend-Predictor/
-├── market_predictor.py   # Aplicação principal em Python
-├── requirements.txt      # Dependências Python
-├── config.py             # Configurações (chaves, parâmetros)
-├── index.html            # Interface web (frontend)
-├── styles.css            # Estilos
-├── app.js                # Lógica do frontend
-├── analytics.R           # Análises estatísticas em R
-├── README.md             # Esta documentação
-└── data/
-    ├── raw/              # Dados brutos
-    ├── processed/        # Dados processados/limpos
-    └── samples/          # Conjuntos de exemplo
-```
-
-### Recursos
-- Dashboard interativo e responsivo
-- Relatórios e scripts analíticos em R
-- Integração com dados em tempo real/near real-time
-- Vários modelos de ML para classificação/regressão de tendências
-- Cache e paralelismo simples para performance
-
-### Início Rápido
-Pré-requisitos: Python 3.9+, R 4.0+ e chaves de API para dados ao vivo.
-
-1. Clonar e entrar no diretório
-```
-git clone https://github.com/galafis/Market-Trend-Predictor.git
-cd Market-Trend-Predictor
-```
-2. Ambiente Python
-```
-python -m venv venv  # macOS/Linux
-source venv/bin/activate
-# Windows (PowerShell)
-venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-```
-3. Pacotes R
-```
-Rscript -e "install.packages(c('ggplot2','dplyr','corrplot','plotly'), repos='https://cloud.r-project.org')"
-```
-4. Configurar
-Crie ou edite o config.py e defina:
-- Chaves de API e endpoints (ex.: Alpha Vantage)
-- Parâmetros de modelo (janelas de lookback, thresholds)
-- Diretórios de dados (raw/processed)
-- Host/porta do servidor web
-
-Exemplo mínimo de config.py:
-```
-API_KEYS = { 'ALPHA_VANTAGE': 'SUA_CHAVE_AQUI' }
-SERVER  = { 'HOST': '127.0.0.1', 'PORT': 8000 }
-MODEL   = { 'LOOKBACK_DAYS': 60, 'TRAIN_TEST_SPLIT': 0.8 }
-DATA_DIRS = { 'RAW': 'data/raw', 'PROCESSED': 'data/processed' }
-```
-5. Executar
-```
-python market_predictor.py  # Abra http://localhost:8000
-```
-
-### Exemplos de Uso
-- Buscar e cachear dados de um ticker (Python):
-```python
-from market_predictor import fetch_data
-prices = fetch_data('PETR4.SA', source='alpha_vantage', cache=True)
-```
-- Treinar um modelo base (Python):
-```python
-from market_predictor import features, models
-X, y = features.make_features(prices)
-clf = models.train_classifier(X, y)
-print(models.evaluate(clf, X, y))
-```
-- Plotar matriz de correlação (R):
-```r
-source('analytics.R')
-plot_correlation('data/processed/petr4.csv')
-```
-
-### Qualidade e Testes
-- Lint: flake8/black (opcional)
-- Reprodutibilidade: fixar versões em requirements.txt e seeds
-- Dados: separar diretórios raw vs processed
-
-### Contribuição
-Contribuições são bem-vindas! Por favor:
-1. Abra uma issue descrevendo a mudança/feature e motivação.
-2. Faça um fork e crie uma branch: `git checkout -b feat/descricao-curta`.
-3. Adicione testes ou exemplos quando aplicável.
-4. Garanta formatação e linting.
-5. Abra um pull request referenciando a issue, com descrição clara e evidências visuais quando houver mudanças de UI.
-
-### Licença
-Licença MIT. Veja o arquivo LICENSE.
+Resultados variam conforme ticker, janela e hiperparâmetros.
 
 ---
 
-### Audit Report - Repository Corrections
-- FIXED: Added requirements.txt and config.py
-- FIXED: Created data/ with README and subfolders
-- FIXED: Align README references to market_predictor.py
-- IMPROVED: Installation, configuration, and bilingual documentation
-- IMPROVED: Added examples and contribution guidelines
+## Testes, Qualidade e Boas Práticas
+- Estilo: black/flake8 (opcional) e tipagem gradual quando possível.
+- Reprodutibilidade: fixar versões em requirements.txt e usar seeds determinísticos.
+- Dados: separar diretórios raw vs processed e manter rastreabilidade.
+- Versionamento: branches por feature e PRs pequenos e revisáveis.
+- Documentação: docstrings claras e README atualizado conforme mudanças nas APIs.
+
+---
+
+## Como Contribuir
+Contribuições são bem-vindas!
+1) Abra uma issue descrevendo motivação e escopo.
+2) Fork e branch: `git checkout -b feat/minha-melhoria`.
+3) Adicione testes/exemplos quando aplicável.
+4) Garanta formatação e linting.
+5) Abra um PR referenciando a issue com descrição objetiva e, se houver UI, evidências visuais.
+
+---
+
+## Licença
+MIT — consulte o arquivo LICENSE.
+
+---
+
+## English — Brief Summary
+Market Trend Predictor provides Python routines for data ingestion, feature engineering and modeling, plus R utilities for analytics/plots. See market_predictor.py, analytics.R and config.py for the core workflow; install Python/R deps, configure config.py, then run data collection, feature creation, modeling and R visualizations as shown above.
