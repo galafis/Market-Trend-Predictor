@@ -4,7 +4,7 @@
 
 A unified toolkit for market trend analysis and prediction with Python and R. Includes a modern web interface, live data ingestion, and reproducible analytics for research and prototyping.
 
-•  English • Português (veja a seção em português abaixo)
+• English • Português (veja a seção em português abaixo)
 
 ---
 
@@ -13,22 +13,18 @@ A unified toolkit for market trend analysis and prediction with Python and R. In
 ### Overview
 Market-Trend-Predictor provides end-to-end components to fetch market data, engineer features, train predictive models, and visualize insights through a responsive web UI. It is designed for clarity, extensibility, and professional workflows.
 
----
-
 ## Visual Pipeline and Architecture
 
 ### Main Analysis Pipeline (Flowchart)
-
 ```mermaid
 flowchart LR
     A[Data Collection\nAPIs: Yahoo, Alpha Vantage] --> B[Processing\nCleaning, resampling, features]
-    B --> C[Modeling\nSKLearn/Keras models]
+    B --> C[Modeling\nscikit-learn / Keras]
     C --> D[Evaluation\nMetrics, backtests]
     D --> E[Visualization\nDashboard, charts]
 ```
 
 ### High-Level Architecture
-
 ```mermaid
 graph TD
     UI[Web UI (index.html, app.js)] --> API[Backend API (Flask/FastAPI)]
@@ -36,11 +32,10 @@ graph TD
     API --> Py[Python Core\nmarket_predictor.py]
     Py --> R[Analytics (R scripts)]
     Py --> Data[Data Directory\nraw / processed]
-    Ext[External Data\nYahoo/AlphaVantage] --> Py
+    Ext[External Data\nYahoo / Alpha Vantage] --> Py
 ```
 
 ### Example Outputs
-
 - Model performance (classification):
 
 ```
@@ -49,16 +44,12 @@ ROC-AUC: 0.81 | PR-AUC: 0.79
 ```
 
 - Sample prediction vs. actual trend (PNG):
-
-![Model Prediction vs Actual (Sample)](https://dummyimage.com/960x360/0d1117/ffffff.png&text=Prediction+vs+Actual+Sample)
+[Model Prediction vs Actual (Sample)](https://dummyimage.com/960x360/0d1117/ffffff.png&text=Prediction+vs+Actual+Sample)
 
 - Feature correlation heatmap (SVG):
-
-<img alt="Correlation Heatmap" src="https://dummyimage.com/720x360/161b22/20c997.png&text=Correlation+Heatmap+(example)" width="720" />
+[Correlation Heatmap](https://dummyimage.com/720x360/161b22/20c997.png&text=Correlation+Heatmap+%28example%29)
 
 Note: Replace dummy images with generated artifacts from analytics.R or notebooks when available.
-
----
 
 ### Author
 - Gabriel Demetrios Lafis  
@@ -93,7 +84,7 @@ Market-Trend-Predictor/
 
 ### Key Features
 - Interactive dashboard with responsive UI
-- R-based analytics notebooks/scripts and reporting
+- R-based analytics scripts and reporting
 - Real-time/near real-time data integration
 - Multiple ML models for classification/regression of trends
 - Caching and simple parallelism for performance
@@ -150,20 +141,21 @@ DATA_DIRS = {
 
 5) Run
 ```
-python market_predictor.py
-# Open http://localhost:8000
+python market_predictor.py  # Open http://localhost:8000
 ```
 
 ### Usage Examples
 - Fetch and cache ticker data (Python):
 ```python
 from market_predictor import fetch_data
+
 prices = fetch_data('AAPL', source='alpha_vantage', cache=True)
 ```
 
 - Fit a baseline model (Python):
 ```python
 from market_predictor import features, models
+
 X, y = features.make_features(prices)
 clf = models.train_classifier(X, y)
 print(models.evaluate(clf, X, y))
@@ -201,29 +193,26 @@ O Market-Trend-Predictor oferece componentes de ponta a ponta para obter dados d
 ## Pipeline e Arquitetura (Visual)
 
 ### Fluxo Principal de Análise (Fluxograma)
-
 ```mermaid
 flowchart LR
-    A[Coleta de Dados\nAPIs: Yahoo, Alpha Vantage] --> B[Processamento\nLimpeza, amostragem, features]
-    B --> C[Modelagem\nModelos SKLearn/Keras]
+    A[Coleta de Dados\nAPIs: Yahoo, Alpha Vantage] --> B[Processamento\nLimpeza, reamostragem, features]
+    B --> C[Modelagem\nscikit-learn / Keras]
     C --> D[Avaliação\nMétricas, backtests]
     D --> E[Visualização\nDashboard, gráficos]
 ```
 
 ### Arquitetura de Alto Nível
-
 ```mermaid
 graph TD
     UI[Web UI (index.html, app.js)] --> API[Backend (Flask/FastAPI)]
     API --> Store[(SQLite / Cache)]
     API --> Py[Núcleo Python\nmarket_predictor.py]
     Py --> R[Analytics (scripts R)]
-    Py --> Data[Dados\nraw / processed]
-    Ext[Dados Externos\nYahoo/AlphaVantage] --> Py
+    Py --> Data[Diretório de Dados\nraw / processed]
+    Ext[Dados Externos\nYahoo / Alpha Vantage] --> Py
 ```
 
 ### Exemplos de Saída
-
 - Desempenho do modelo (classificação):
 ```
 Acurácia: 0.78 | Precisão: 0.75 | Revocação: 0.72 | F1: 0.73
@@ -231,12 +220,10 @@ ROC-AUC: 0.81 | PR-AUC: 0.79
 ```
 
 - Predição vs. tendência real (PNG):
-
-![Predição vs Real (Exemplo)](https://dummyimage.com/960x360/0d1117/ffffff.png&text=Predicao+vs+Real+Exemplo)
+[Predição vs Real (Exemplo)](https://dummyimage.com/960x360/0d1117/ffffff.png&text=Predi%C3%A7%C3%A3o+vs+Real+%28Exemplo%29)
 
 - Mapa de calor de correlação (SVG):
-
-<img alt="Mapa de Correlacao" src="https://dummyimage.com/720x360/161b22/20c997.png&text=Mapa+de+Correlacao+(exemplo)" width="720" />
+[Mapa de Correlação](https://dummyimage.com/720x360/161b22/20c997.png&text=Mapa+de+Correla%C3%A7%C3%A3o+%28exemplo%29)
 
 Nota: Substitua as imagens dummy por artefatos gerados via analytics.R quando disponíveis.
 
@@ -324,20 +311,21 @@ DATA_DIRS = {
 
 5) Executar
 ```
-python market_predictor.py
-# Abra http://localhost:8000
+python market_predictor.py  # Abra http://localhost:8000
 ```
 
 ### Exemplos de Uso
 - Buscar e cachear dados de um ticker (Python):
 ```python
 from market_predictor import fetch_data
+
 prices = fetch_data('PETR4.SA', source='alpha_vantage', cache=True)
 ```
 
 - Treinar um modelo base (Python):
 ```python
 from market_predictor import features, models
+
 X, y = features.make_features(prices)
 clf = models.train_classifier(X, y)
 print(models.evaluate(clf, X, y))
@@ -364,6 +352,8 @@ Contribuições são bem-vindas! Por favor:
 
 ### Licença
 Licença MIT. Veja o arquivo LICENSE.
+
+---
 
 ### Audit Report - Repository Corrections
 - FIXED: Added requirements.txt and config.py
