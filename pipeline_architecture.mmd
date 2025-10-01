@@ -1,0 +1,26 @@
+flowchart TD
+    A[Config config.py] --> B[Coleta de Dados\nmarket_predictor.py]
+    B -->|CSV/Parquet| C[(data/raw)]
+    C --> D[Processamento & Features\nmarket_predictor.py]
+    D -->|datasets prontos| E[(data/processed)]
+    E --> F[Modelagem\nTreino/Validação]
+    F --> G[Resultados\nMétricas e Predições]
+    E --> H[R Analytics\nanalytics.R]
+    H --> I[Gráficos e Relatórios]
+    
+    subgraph Persistência
+        C
+        E
+    end
+    
+    subgraph "Núcleo Python"
+        B
+        D
+        F
+        G
+    end
+    
+    subgraph "Núcleo R"
+        H
+        I
+    end

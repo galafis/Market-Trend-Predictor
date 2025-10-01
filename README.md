@@ -1,6 +1,7 @@
 # Market Trend Predictor — Análise e Predição de Tendências de Mercado
 
-[![Build](https://img.shields.io/badge/build-passing-brightgreen)](#) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) ![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-3776AB) ![R 4.0+](https://img.shields.io/badge/R-4.0%2B-276DC3)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/galafis/Market-Trend-Predictor/actions) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) ![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white) ![R 4.0+](https://img.shields.io/badge/R-4.0%2B-276DC3?logo=r&logoColor=white) [![GitHub last commit](https://img.shields.io/github/last-commit/galafis/Market-Trend-Predictor)](https://github.com/galafis/Market-Trend-Predictor/commits/main) [![GitHub stars](https://img.shields.io/github/stars/galafis/Market-Trend-Predictor?style=social)](https://github.com/galafis/Market-Trend-Predictor/stargazers) [![GitHub forks](https://img.shields.io/github/forks/galafis/Market-Trend-Predictor?style=social)](https://github.com/galafis/Market-Trend-Predictor/network/members)
+
 
 Toolkit unificado em Python e R para coletar dados de mercado, construir features, treinar modelos preditivos e gerar análises reprodutíveis. Foco em clareza, extensibilidade e fluxo profissional para pesquisa e prototipagem.
 
@@ -49,34 +50,8 @@ Objetivo: oferecer uma base didática, reprodutível e extensível para estudos 
 
 ## Diagrama do Pipeline/Arquitetura
 
-```mermaid
-flowchart TD
-    A[Config config.py] --> B[Coleta de Dados\nmarket_predictor.py]
-    B -->|CSV/Parquet| C[(data/raw)]
-    C --> D[Processamento & Features\nmarket_predictor.py]
-    D -->|datasets prontos| E[(data/processed)]
-    E --> F[Modelagem\nTreino/Validação]
-    F --> G[Resultados\nMétricas e Predições]
-    E --> H[R Analytics\nanalytics.R]
-    H --> I[Gráficos e Relatórios]
-    
-    subgraph Persistência
-        C
-        E
-    end
-    
-    subgraph "Núcleo Python"
-        B
-        D
-        F
-        G
-    end
-    
-    subgraph "Núcleo R"
-        H
-        I
-    end
-```
+![Diagrama do Pipeline/Arquitetura](./pipeline_architecture.png)
+
 
 ---
 
@@ -228,8 +203,8 @@ Consulte as funções definidas em `analytics.R` e adapte os caminhos.
 
 **Imagens de exemplo** (placeholders):
 
-- • Predição vs Real: https://dummyimage.com/960x360/0d1117/ffffff.png&text=Prediction+vs+Actual+Sample
-- • Mapa de Correlação: https://dummyimage.com/720x360/161b22/20c997.png&text=Correlation+Heatmap+(example)
+- • Predição vs Real: ./prediction_vs_actual.png
+- • Mapa de Correlação: ./correlation_heatmap.png
 
 Resultados variam conforme ticker, janela e hiperparâmetros.
 
