@@ -17,7 +17,7 @@ from tensorflow.keras.layers import LSTM, Dense, Dropout
 import yfinance as yf
 from datetime import datetime, timedelta
 import warnings
-warnings.filterwarnings('ignore')
+warnings.filterwarnings("ignore")
 
 class MarketTrendPredictor:
     def __init__(self):
@@ -27,7 +27,7 @@ class MarketTrendPredictor:
         self.data = {}
         self.predictions = {}
         
-    def fetch_market_data(self, symbols=['AAPL', 'GOOGL', 'MSFT', 'TSLA', 'AMZN'], period='2y'):
+    def fetch_market_data(self, symbols=["AAPL", "GOOGL", "MSFT", "TSLA", "AMZN"], period="2y"):
         """Fetch real market data from Yahoo Finance."""
         market_data = {}
         
@@ -49,8 +49,10 @@ class MarketTrendPredictor:
         """Generate synthetic market data for testing."""
         np.random.seed(hash(symbol) % 2**32)
         
-        dates = pd.date_range(start=datetime.now() - timedelta(days=days), 
-                             end=datetime.now(), freq='D')
+        # Ensure the number of dates matches the requested 'days'
+        end_date = datetime.now()
+        start_date = end_date - timedelta(days=days - 1)
+        dates = pd.date_range(start=start_date, end=end_date, freq='D')
         
         # Generate realistic price movements
         initial_price = np.random.uniform(50, 500)
@@ -282,9 +284,9 @@ class MarketTrendPredictor:
                 sell_signals += 1
             
             # Bollinger Bands
-            if current['Close'] < current['BB_Lower']:  # Below lower band
+            if current['Close'] < current['BB_Lower']:
                 buy_signals += 1
-            elif current['Close'] > current['BB_Upper']:  # Above upper band
+            elif current['Close'] > current['BB_Upper']:
                 sell_signals += 1
             
             # Generate final signal
@@ -345,7 +347,7 @@ class MarketTrendPredictor:
         
         return dashboard_data
     
-    def run_complete_analysis(self, symbols=['AAPL', 'GOOGL', 'MSFT']):
+    def run_complete_analysis(self, symbols=["AAPL", "GOOGL", "MSFT"]):
         """Run complete market trend analysis."""
         print("Starting Market Trend Prediction Analysis...")
         
@@ -366,7 +368,7 @@ def main():
     predictor = MarketTrendPredictor()
     
     # Run analysis
-    symbols = ['AAPL', 'GOOGL', 'MSFT', 'TSLA']
+    symbols = ["AAPL", "GOOGL", "MSFT", "TSLA"]
     results = predictor.run_complete_analysis(symbols)
     
     # Print results
@@ -381,8 +383,8 @@ def main():
         
         print(f"\n{symbol}:")
         print(f"  Current Price: ${data['current_price']}")
-        print(f"  1-Day Change: {data['price_change_1d']:+.2f}%")
-        print(f"  7-Day Change: {data['price_change_7d']:+.2f}%")
+        print(f"  1-Day Change: {data['price_change_1d']:.2f}%")
+        print(f"  7-Day Change: {data['price_change_7d']:.2f}%")
         print(f"  30-Day Prediction: ${data['predicted_price_30d']}")
         print(f"  Model RMSE: {data['model_accuracy']['test_rmse']}")
         print(f"  RSI: {data['technical_indicators']['RSI']}")

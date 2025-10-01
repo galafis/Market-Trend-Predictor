@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Trend Predictor - Gabriel Demetrios Lafis</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>Market Trend Predictor</h1>
+            <p>Advanced solution by Gabriel Demetrios Lafis</p>
+        </div>
+    </header>
+    
+    <main class="main">
+        <div class="container">
+            <section id="about" class="hero">
+                <h2>About the Project</h2>
+                <p>This project implements an advanced market trend prediction system using various machine learning and statistical models, including ARIMA, LSTM, Prophet, and ensemble methods. It aims to provide accurate forecasts for market trends and financial indicators, offering valuable insights for investors and analysts.</p>
+                <p>For more details, please visit the <a href="https://github.com/Gabriel-Demetrios-Lafis/Market-Trend-Predictor">GitHub repository</a>.</p>
+            </section>
+            
+            <section id="features" class="features">
+                <h2>Features</h2>
+                <div class="feature-list">
+                    <div class="feature">
+                        <h4>Data Fetching</h4>
+                        <p>Automatically retrieves historical market data from Yahoo Finance.</p>
+                    </div>
+                    <div class="feature">
+                        <h4>Synthetic Data Generation</h4>
+                        <p>Generates synthetic market data for testing and development purposes when real data is unavailable.</p>
+                    </div>
+                    <div class="feature">
+                        <h4>LSTM Model</h4>
+                        <p>Utilizes Long Short-Term Memory (LSTM) neural networks for time series forecasting.</p>
+                    </div>
+                    <div class="feature">
+                        <h4>Technical Indicators</h4>
+                        <p>Calculates a wide range of technical indicators (e.g., Moving Averages, MACD, RSI, Bollinger Bands) to enhance prediction accuracy and generate trading signals.</p>
+                    </div>
+                    <div class="feature">
+                        <h4>Trading Signal Generation</h4>
+                        <p>Provides BUY/SELL/HOLD signals based on technical analysis.</p>
+                    </div>
+                    <div class="feature">
+                        <h4>Market Dashboard</h4>
+                        <p>Generates a comprehensive dashboard with current prices, daily/weekly changes, 30-day price predictions, model accuracy metrics, and key technical indicators.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="dashboard" class="features">
+                <h2>Market Dashboard (Simulated)</h2>
+                <div class="dashboard-grid">
+                    <div class="dashboard-item">
+                        <h3>AAPL</h3>
+                        <p>Current Price: $629.39</p>
+                        <p>1-Day Change: -1.53%</p>
+                        <p>7-Day Change: 0.05%</p>
+                        <p>30-Day Prediction: $593.21</p>
+                        <p>Model RMSE: 24.08</p>
+                        <p>RSI: 49.03</p>
+                        <p>Trading Signal: HOLD</p>
+                    </div>
+                    <div class="dashboard-item">
+                        <h3>GOOGL</h3>
+                        <p>Current Price: $727.65</p>
+                        <p>1-Day Change: 0.51%</p>
+                        <p>7-Day Change: 6.00%</p>
+                        <p>30-Day Prediction: $692.42</p>
+                        <p>Model RMSE: 26.44</p>
+                        <p>RSI: 50.26</p>
+                        <p>Trading Signal: HOLD</p>
+                    </div>
+                </div>
+                <p><em>Note: Data shown is simulated due to real-time data fetching limitations in this environment.</em></p>
+            </section>
+        </div>
+    </main>
+    
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Gabriel Demetrios Lafis. All rights reserved.</p>
+            <div class="contact">
+                <a href="mailto:gabrieldemetrios@gmail.com">Email</a>
+                <a href="https://linkedin.com/in/gabriel-demetrios-lafis-62197711b">LinkedIn</a>
+                <a href="https://github.com/galafis">GitHub</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="app.js"></script>
+</body>
+</html>

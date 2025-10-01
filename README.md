@@ -1,268 +1,203 @@
-# Market Trend Predictor — Análise e Predição de Tendências de Mercado
+# Market Trend Predictor
 
-[![Build](https://img.shields.io/badge/build-passing-brightgreen)](#) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) ![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-3776AB) ![R 4.0+](https://img.shields.io/badge/R-4.0%2B-276DC3)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](#) 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) 
+[![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-3776AB)]() 
+[![Pytest](https://img.shields.io/badge/tests-passing-brightgreen)](tests/) 
+[![R 4.0+](https://img.shields.io/badge/R-4.0%2B-276DC3)]()
 
-Toolkit unificado em Python e R para coletar dados de mercado, construir features, treinar modelos preditivos e gerar análises reprodutíveis. Foco em clareza, extensibilidade e fluxo profissional para pesquisa e prototipagem.
+## English
 
-- • Idioma: Português (padrão). English summary at the end.
+This project implements an advanced market trend prediction system using various machine learning and statistical models, including ARIMA, LSTM, Prophet, and ensemble methods. It aims to provide accurate forecasts for market trends and financial indicators, offering valuable insights for investors and analysts.
 
----
+### Features
 
-## Sumário
+- **Data Fetching**: Automatically retrieves historical market data from Yahoo Finance.
+- **Synthetic Data Generation**: Generates synthetic market data for testing and development purposes when real data is unavailable.
+- **LSTM Model**: Utilizes Long Short-Term Memory (LSTM) neural networks for time series forecasting.
+- **Technical Indicators**: Calculates a wide range of technical indicators (e.g., Moving Averages, MACD, RSI, Bollinger Bands) to enhance prediction accuracy and generate trading signals.
+- **Trading Signal Generation**: Provides BUY/SELL/HOLD signals based on technical analysis.
+- **Market Dashboard**: Generates a comprehensive dashboard with current prices, daily/weekly changes, 30-day price predictions, model accuracy metrics, and key technical indicators.
 
-- • [Descrição e Objetivos](#descrição-e-objetivos)
-- • [Diagrama do Pipeline/Arquitetura](#diagrama-do-pipelinearquitetura)
-- • [Estrutura de Pastas e Arquivos](#estrutura-de-pastas-e-arquivos)
-- • [Instalação e Configuração](#instalação-e-configuração)
-  - ◦ [Python](#python)
-  - ◦ [R](#r)
-  - ◦ [Configuração (config.py)](#configuração-configpy)
-- • [Exemplos de Uso](#exemplos-de-uso)
-  - ◦ [Coleta e Features em Python](#coleta-e-features-em-python)
-  - ◦ [Análises e Gráficos em R](#análises-e-gráficos-em-r)
-- • [Resultados Esperados](#resultados-esperados)
-- • [Testes, Qualidade e Boas Práticas](#testes-qualidade-e-boas-práticas)
-- • [Como Contribuir](#como-contribuir)
-- • [Licença](#licença)
-- • [English — Brief Summary](#english--brief-summary)
-
----
-
-## Descrição e Objetivos
-
-O Market Trend Predictor fornece componentes ponta a ponta para:
-
-- • Ingestão de dados históricos de mercado (ex.: Alpha Vantage, Yahoo Finance) com cache local.
-- • Engenharia de atributos (janelas temporais, retornos, indicadores técnicos simples).
-- • Treinamento e avaliação de modelos clássicos de ML para classificação/regressão de tendência.
-- • Relatórios e visualizações (R) sobre correlação, distribuição e desempenho do modelo.
-
-Arquivos principais do repositório referenciados nesta documentação:
-
-- • market_predictor.py: aplicativo/rotinas centrais em Python para dados, features, modelos e execução local do servidor (quando aplicável).
-- • analytics.R: funções utilitárias em R para análises exploratórias e gráficos.
-- • config.py: parâmetros de execução, diretórios e chaves de API.
-
-Objetivo: oferecer uma base didática, reprodutível e extensível para estudos de tendência em séries financeiras.
-
----
-
-## Diagrama do Pipeline/Arquitetura
-
-```mermaid
-flowchart TD
-    A[Config config.py] --> B[Coleta de Dados\nmarket_predictor.py]
-    B -->|CSV/Parquet| C[(data/raw)]
-    C --> D[Processamento & Features\nmarket_predictor.py]
-    D -->|datasets prontos| E[(data/processed)]
-    E --> F[Modelagem\nTreino/Validação]
-    F --> G[Resultados\nMétricas e Predições]
-    E --> H[R Analytics\nanalytics.R]
-    H --> I[Gráficos e Relatórios]
-    
-    subgraph Persistência
-        C
-        E
-    end
-    
-    subgraph "Núcleo Python"
-        B
-        D
-        F
-        G
-    end
-    
-    subgraph "Núcleo R"
-        H
-        I
-    end
-```
-
----
-
-## Estrutura de Pastas e Arquivos
+### Project Structure
 
 ```
 Market-Trend-Predictor/
-├── market_predictor.py    # Núcleo Python: coleta, features, modelos e execução
-├── analytics.R            # Utilitários R: correlação, gráficos e EDA
-├── config.py              # Configurações: chaves, diretórios e hiperparâmetros
-├── requirements.txt       # Dependências Python
-├── README.md              # Esta documentação
-└── data/
-    ├── raw/               # Dados brutos (cache de APIs)
-    ├── processed/         # Dados limpos/derivados p/ modelagem
-    └── samples/           # Conjuntos de exemplo (opcional)
+├── src/
+│   ├── __init__.py
+│   └── market_predictor.py
+├── tests/
+│   └── test_market_predictor.py
+├── docs/
+│   └── diagrams/
+│       └── architecture.png
+├── app/
+├── requirements.txt
+├── pyproject.toml
+├── setup.py
+└── README.md
 ```
 
-**Observação**: arquivos de frontend citados em versões anteriores (index.html, app.js, styles.css) só devem ser considerados se existirem no repositório. Esta documentação foca nos arquivos confirmados: market_predictor.py, analytics.R, config.py.
+- `src/`: Contains the core Python source code, including the `MarketTrendPredictor` class.
+- `tests/`: Contains unit tests for the `market_predictor.py` module.
+- `docs/`: Contains additional documentation and diagrams.
+- `docs/diagrams/`: Stores visual diagrams of the project, such as the architecture diagram.
+- `app/`: Placeholder for web application files (e.g., `index.html`, `styles.css`, `app.js`).
+- `requirements.txt`: Lists all Python dependencies required for the project.
+- `pyproject.toml`: Project configuration file.
+- `setup.py`: Setup script for package installation.
+- `README.md`: This documentation file.
 
----
+### Architecture Diagram
 
-## Instalação e Configuração
+![Architecture Diagram](docs/diagrams/architecture.png)
 
-### Python
 
-**Requisitos**: Python 3.9+
+### Installation
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/Gabriel-Demetrios-Lafis/Market-Trend-Predictor.git
+   cd Market-Trend-Predictor
+   ```
+
+2. **Create a virtual environment (recommended):**
+
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+   ```
+
+3. **Install dependencies:**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### Usage
+
+To run the market trend prediction analysis, execute the `market_predictor.py` script:
 
 ```bash
-# Clonar e entrar no projeto
-git clone https://github.com/galafis/Market-Trend-Predictor.git
-cd Market-Trend-Predictor
-
-# Ambiente virtual e dependências
-python -m venv venv
-
-# macOS/Linux
-source venv/bin/activate
-
-# Windows (PowerShell)
-# venv\Scripts\Activate.ps1
-
-pip install -r requirements.txt
+python src/market_predictor.py
 ```
 
-### R
+This will fetch data for default symbols (AAPL, GOOGL, MSFT, TSLA), train LSTM models, generate predictions, and display a market dashboard.
 
-**Requisitos**: R 4.0+
+### Running Tests
 
-```r
-Rscript -e "install.packages(c('ggplot2','dplyr','corrplot','plotly'), repos='https://cloud.r-project.org')"
+To run the unit tests and ensure all functionalities are working correctly:
+
+```bash
+PYTHONPATH=. pytest tests/test_market_predictor.py
 ```
 
-### Configuração (config.py)
+### Contributing
 
-Crie/edite `config.py` e ajuste variáveis conforme seu ambiente:
+Contributions are welcome! Please feel free to open issues or submit pull requests.
 
-**Exemplo mínimo**:
+### License
 
-```python
-API_KEYS = {
-    'ALPHA_VANTAGE': 'SUA_CHAVE_AQUI'
-}
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-SERVER = {
-    'HOST': '127.0.0.1',
-    'PORT': 8000
-}
+## Português
 
-MODEL = {
-    'LOOKBACK_DAYS': 60,
-    'TRAIN_TEST_SPLIT': 0.8,
-    # Outros hiperparâmetros (ex.: n_estimators, random_state)
-}
+Este projeto implementa um sistema avançado de previsão de tendências de mercado utilizando vários modelos de machine learning e estatísticos, incluindo ARIMA, LSTM, Prophet e métodos de ensemble. O objetivo é fornecer previsões precisas para tendências de mercado e indicadores financeiros, oferecendo insights valiosos para investidores e analistas.
 
-DATA_DIRS = {
-    'RAW': 'data/raw',
-    'PROCESSED': 'data/processed'
-}
+### Funcionalidades
+
+- **Coleta de Dados**: Recupera automaticamente dados históricos de mercado do Yahoo Finance.
+- **Geração de Dados Sintéticos**: Gera dados de mercado sintéticos para fins de teste e desenvolvimento quando dados reais não estão disponíveis.
+- **Modelo LSTM**: Utiliza redes neurais Long Short-Term Memory (LSTM) para previsão de séries temporais.
+- **Indicadores Técnicos**: Calcula uma ampla gama de indicadores técnicos (por exemplo, Médias Móveis, MACD, RSI, Bandas de Bollinger) para aumentar a precisão da previsão e gerar sinais de negociação.
+- **Geração de Sinais de Negociação**: Fornece sinais de COMPRA/VENDA/MANTER com base na análise técnica.
+
+- **Dashboard de Mercado**: Gera um dashboard abrangente com preços atuais, mudanças diárias/semanais, previsões de preços para 30 dias, métricas de precisão do modelo e principais indicadores técnicos.
+
+### Estrutura do Projeto
+
+```
+Market-Trend-Predictor/
+├── src/
+│   ├── __init__.py
+│   └── market_predictor.py
+├── tests/
+│   └── test_market_predictor.py
+├── docs/
+│   └── diagrams/
+│       └── architecture.png
+├── app/
+├── requirements.txt
+├── pyproject.toml
+├── setup.py
+└── README.md
 ```
 
-Crie as pastas `data/raw` e `data/processed` caso não existam.
+- `src/`: Contém o código-fonte principal em Python, incluindo a classe `MarketTrendPredictor`.
+- `tests/`: Contém os testes unitários para o módulo `market_predictor.py`.
+- `docs/`: Contém documentação adicional e diagramas.
+- `docs/diagrams/`: Armazena diagramas visuais do projeto, como o diagrama de arquitetura.
+- `app/`: Espaço reservado para arquivos de aplicativos web (por exemplo, `index.html`, `styles.css`, `app.js`).
+- `requirements.txt`: Lista todas as dependências Python necessárias para o projeto.
+- `pyproject.toml`: Arquivo de configuração do projeto.
+- `setup.py`: Script de configuração para instalação do pacote.
+- `README.md`: Este arquivo de documentação.
+
+### Diagrama de Arquitetura
+
+![Diagrama de Arquitetura](docs/diagrams/architecture.png)
+
+
+### Instalação
+
+1. **Clone o repositório:**
+
+   ```bash
+   git clone https://github.com/Gabriel-Demetrios-Lafis/Market-Trend-Predictor.git
+   cd Market-Trend-Predictor
+   ```
+
+2. **Crie um ambiente virtual (recomendado):**
+
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # No Windows, use `venv\Scripts\activate`
+   ```
+
+3. **Instale as dependências:**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### Uso
+
+Para executar a análise de previsão de tendências de mercado, execute o script `market_predictor.py`:
+
+```bash
+python src/market_predictor.py
+```
+
+Isso buscará dados para os símbolos padrão (AAPL, GOOGL, MSFT, TSLA), treinará modelos LSTM, gerará previsões e exibirá um dashboard de mercado.
+
+### Executando Testes
+
+Para executar os testes unitários e garantir que todas as funcionalidades estejam funcionando corretamente:
+
+```bash
+PYTHONPATH=. pytest tests/test_market_predictor.py
+```
+
+### Contribuições
+
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.
+
+### Licença
+
+Este projeto está licenciado sob a Licença MIT - consulte o arquivo LICENSE para obter detalhes.
 
 ---
 
-## Exemplos de Uso
+**Autor**: Gabriel Demetrios Lafis
 
-### Coleta e Features em Python
-
-**Exemplo 1** — baixar e cachear preços diários, gerar features e treinar um classificador simples:
-
-```python
-from market_predictor import fetch_data, features, models
-
-# 1) Coleta (exige API key se usar Alpha Vantage)
-prices = fetch_data('AAPL', source='alpha_vantage', cache=True)
-
-# 2) Engenharia de atributos (ex.: retornos, janelas móveis)
-X, y = features.make_features(prices)
-
-# 3) Treino e avaliação
-clf = models.train_classifier(X, y)
-print(models.evaluate(clf, X, y))
-```
-
-**Exemplo 2** — gerar previsões e salvar dataset processado:
-
-```python
-from market_predictor import io_utils, predict
-
-# Supondo que io_utils.write_processed salva em data/processed
-io_utils.write_processed('data/processed/aapl.csv', X, y)
-
-# Previsões
-preds = predict.infer_classifier(clf, X)
-print(preds.head())
-```
-
-**Observação**: os nomes de funções acima refletem a intenção do pipeline. Caso os nomes reais no `market_predictor.py` diferirem, ajuste as chamadas conforme as assinaturas disponíveis no arquivo.
-
-### Análises e Gráficos em R
-
-Matriz de correlação sobre um CSV processado:
-
-```r
-source('analytics.R')
-plot_correlation('data/processed/aapl.csv')
-```
-
-Outros exemplos comuns em `analytics.R` podem incluir:
-
-- • `plot_feature_importance(path)`
-- • `plot_prediction_vs_actual(path)`
-
-Consulte as funções definidas em `analytics.R` e adapte os caminhos.
-
----
-
-## Resultados Esperados
-
-- • **Métricas de classificação** (exemplo):
-  - ◦ Accuracy ~ 0.75–0.80
-  - ◦ Precision/Recall/F1 balanceadas
-  - ◦ ROC-AUC/PR-AUC informativas
-
-- • **Gráficos ilustrativos** gerados pelo R, como:
-  - ◦ Heatmap de correlação entre features
-  - ◦ Linha Predição vs. Real em janelas de validação
-
-**Imagens de exemplo** (placeholders):
-
-- • Predição vs Real: https://dummyimage.com/960x360/0d1117/ffffff.png&text=Prediction+vs+Actual+Sample
-- • Mapa de Correlação: https://dummyimage.com/720x360/161b22/20c997.png&text=Correlation+Heatmap+(example)
-
-Resultados variam conforme ticker, janela e hiperparâmetros.
-
----
-
-## Testes, Qualidade e Boas Práticas
-
-- • **Estilo**: black/flake8 (opcional) e tipagem gradual quando possível.
-- • **Reprodutibilidade**: fixar versões em requirements.txt e usar seeds determinísticos.
-- • **Dados**: separar diretórios raw vs processed e manter rastreabilidade.
-- • **Versionamento**: branches por feature e PRs pequenos e revisáveis.
-- • **Documentação**: docstrings claras e README atualizado conforme mudanças nas APIs.
-
----
-
-## Como Contribuir
-
-Contribuições são bem-vindas!
-
-1. Abra uma issue descrevendo motivação e escopo.
-2. Fork e branch: `git checkout -b feat/minha-melhoria`.
-3. Adicione testes/exemplos quando aplicável.
-4. Garanta formatação e linting.
-5. Abra um PR referenciando a issue com descrição objetiva e, se houver UI, evidências visuais.
-
----
-
-## Licença
-
-MIT — consulte o arquivo LICENSE.
-
----
-
-## English — Brief Summary
-
-Market Trend Predictor provides Python routines for data ingestion, feature engineering and modeling, plus R utilities for analytics/plots. See market_predictor.py, analytics.R and config.py for the core workflow; install Python/R deps, configure config.py, then run data collection, feature creation, modeling and R visualizations as shown above.

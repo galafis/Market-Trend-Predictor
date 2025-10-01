@@ -1,0 +1,22 @@
+graph TD
+    A[Usuário/Scheduler] --> B(market_predictor.py)
+    B --> C{Coleta de Dados}
+    C -- "Yahoo Finance" --> D[Dados Brutos YF]
+    C -- "Falha na Coleta" --> E[Dados Sintéticos]
+    D & E --> F[Dados Históricos]
+    F --> G{Preparação de Dados para LSTM}
+    G --> H[Dados Escalados e Sequenciados]
+    H --> I(build_lstm_model)
+    I --> J[Modelo LSTM Compilado]
+    J --> K(train_lstm_model)
+    K --> L[Modelo LSTM Treinado]
+    L --> M(predict_future_prices)
+    M --> N[Previsões de Preços Futuros]
+    F --> O(calculate_technical_indicators)
+    O --> P[Indicadores Técnicos]
+    P --> Q(generate_trading_signals)
+    Q --> R[Sinais de Negociação]
+    L & N & R --> S(create_market_dashboard)
+    S --> T[Dashboard de Análise de Mercado]
+    T --> U[Output para Usuário]
+

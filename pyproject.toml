@@ -1,0 +1,38 @@
+[project]
+name = "market-trend-predictor"
+version = "0.1.0"
+description = "An advanced market trend prediction system."
+authors = [
+    { name = "Gabriel Demetrios Lafis", email = "gabriel.lafis@example.com" },
+]
+dependencies = [
+    "pandas",
+    "numpy",
+    "scikit-learn",
+    "matplotlib",
+    "seaborn",
+    "flask",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "flake8",
+    "black",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+pythonpath = "src"
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+
+[tool.flake8]
+max-line-length = 88
+exclude = [".git", "__pycache__", "docs", "build", "dist"]
+
