@@ -48,7 +48,7 @@ body {
     padding: 4rem 0;
 }
 
-.hero {
+section {
     background: white;
     border-radius: 1rem;
     padding: 3rem;
@@ -56,10 +56,25 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-.hero h2 {
+section h2 {
     text-align: center;
     margin-bottom: 2rem;
     color: var(--dark);
+}
+
+.hero p {
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+
+.hero a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.hero a:hover {
+    text-decoration: underline;
 }
 
 .tech-grid {
@@ -87,35 +102,60 @@ body {
     font-size: 1.5rem;
 }
 
-.features {
-    background: white;
-    border-radius: 1rem;
-    padding: 3rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+.features ul {
+    list-style: none;
+    padding-left: 0;
 }
 
-.features h2 {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: var(--dark);
-}
-
-.feature-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-}
-
-.feature {
-    padding: 1.5rem;
-    border-left: 4px solid var(--primary);
+.features li {
     background: var(--light);
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid var(--primary);
     border-radius: 0.5rem;
 }
 
-.feature h4 {
+.features li strong {
     color: var(--primary);
+}
+
+.pipeline img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 2rem auto;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+}
+
+.installation pre {
+    background-color: var(--dark);
+    color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin-top: 1rem;
+}
+
+.installation h3 {
+    margin-top: 1.5rem;
     margin-bottom: 0.5rem;
+    color: var(--primary);
+}
+
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.image-gallery img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .footer {
@@ -123,6 +163,10 @@ body {
     color: white;
     padding: 2rem 0;
     text-align: center;
+}
+
+.footer p {
+    margin-bottom: 1rem;
 }
 
 .contact {
@@ -149,11 +193,16 @@ body {
         font-size: 2rem;
     }
     
-    .hero, .features {
+    section {
         padding: 2rem;
     }
     
-    .tech-grid, .feature-list {
+    .tech-grid {
         grid-template-columns: 1fr;
     }
+    
+    .image-gallery img {
+        width: 100%;
+    }
 }
+

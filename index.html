@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market-Trend-Predictor - Gabriel Demetrios Lafis</title>
+    <title>Market Trend Predictor - Gabriel Demetrios Lafis</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header class="header">
         <div class="container">
-            <h1>Market-Trend-Predictor</h1>
+            <h1>Market Trend Predictor</h1>
             <p>Advanced solution by Gabriel Demetrios Lafis</p>
         </div>
     </header>
@@ -17,42 +17,80 @@
     <main class="main">
         <div class="container">
             <section class="hero">
-                <h2>Modern Technology Stack</h2>
+                <h2>Sobre o Projeto</h2>
+                <p>O Market Trend Predictor é um toolkit unificado em Python e R para coletar dados de mercado, construir features, treinar modelos preditivos e gerar análises reprodutíveis. O foco é em clareza, extensibilidade e um fluxo profissional para pesquisa e prototipagem.</p>
+                <p>Este projeto implementa um sistema avançado de previsão de tendências de mercado usando vários modelos de machine learning e estatísticos, incluindo ARIMA, LSTM, Prophet e métodos de ensemble. Ele visa fornecer previsões precisas para tendências de mercado e indicadores financeiros, oferecendo insights valiosos para investidores e analistas.</p>
+                <p>Para mais detalhes, visite o <a href="https://github.com/galafis/Market-Trend-Predictor" target="_blank">repositório GitHub</a>.</p>
+            </section>
+
+            <section class="pipeline">
+                <h2>Diagrama do Pipeline/Arquitetura</h2>
+                <img src="pipeline_architecture.png" alt="Diagrama do Pipeline/Arquitetura">
+            </section>
+
+            <section class="features">
+                <h2>Funcionalidades</h2>
+                <ul>
+                    <li><strong>Ingestão de dados históricos de mercado:</strong> Coleta dados de fontes como Alpha Vantage e Yahoo Finance com cache local.</li>
+                    <li><strong>Engenharia de atributos:</strong> Criação de janelas temporais, retornos e indicadores técnicos simples.</li>
+                    <li><strong>Treinamento e avaliação de modelos:</strong> Utiliza modelos clássicos de ML para classificação/regressão de tendência.</li>
+                    <li><strong>Relatórios e visualizações:</strong> Geração de gráficos e análises em R sobre correlação, distribuição e desempenho do modelo.</li>
+                </ul>
+            </section>
+
+            <section class="tech-stack">
+                <h2>Tecnologias Utilizadas</h2>
                 <div class="tech-grid">
                     <div class="tech-card">
                         <h3>Python</h3>
-                        <p>Backend processing and ML algorithms</p>
-                    </div>
-                    <div class="tech-card">
-                        <h3>JavaScript</h3>
-                        <p>Interactive frontend functionality</p>
+                        <p>Processamento de backend e algoritmos de ML</p>
                     </div>
                     <div class="tech-card">
                         <h3>R</h3>
-                        <p>Statistical analysis and visualization</p>
+                        <p>Análise estatística e visualização</p>
                     </div>
                     <div class="tech-card">
-                        <h3>HTML5/CSS3</h3>
-                        <p>Modern responsive interface</p>
+                        <h3>HTML5/CSS3/JavaScript</h3>
+                        <p>Interface moderna e responsiva</p>
                     </div>
                 </div>
             </section>
-            
-            <section class="features">
-                <h2>Key Features</h2>
-                <div class="feature-list">
-                    <div class="feature">
-                        <h4>Real-time Processing</h4>
-                        <p>Advanced algorithms for instant results</p>
-                    </div>
-                    <div class="feature">
-                        <h4>Data Visualization</h4>
-                        <p>Interactive charts and analytics</p>
-                    </div>
-                    <div class="feature">
-                        <h4>Scalable Architecture</h4>
-                        <p>Built for enterprise-level performance</p>
-                    </div>
+
+            <section class="installation">
+                <h2>Instalação e Configuração</h2>
+                <h3>Python</h3>
+                <p><strong>Requisitos</strong>: Python 3.9+</p>
+                <pre><code># Clonar e entrar no projeto
+git clone https://github.com/galafis/Market-Trend-Predictor.git
+cd Market-Trend-Predictor
+
+# Ambiente virtual e dependências
+python -m venv venv
+
+# macOS/Linux
+source venv/bin/activate
+
+# Windows (PowerShell)
+# venv\Scripts\Activate.ps1
+
+pip install -r requirements.txt</code></pre>
+
+                <h3>R</h3>
+                <p><strong>Requisitos</strong>: R 4.0+</p>
+                <pre><code>Rscript -e "install.packages(c(\'ggplot2\',\'dplyr\',\'corrplot\',\'plotly\'), repos=\'https://cloud.r-project.org\')"</code></pre>
+            </section>
+
+            <section class="examples">
+                <h2>Exemplos de Uso</h2>
+                <p>Para exemplos detalhados de coleta de dados, engenharia de features e análises em R, consulte o <a href="https://github.com/galafis/Market-Trend-Predictor#exemplos-de-uso" target="_blank">README.md no GitHub</a>.</p>
+            </section>
+
+            <section class="results">
+                <h2>Resultados Esperados</h2>
+                <p>O projeto visa fornecer métricas de classificação robustas e gráficos ilustrativos, como heatmaps de correlação e linhas de Previsão vs. Real. Para mais informações, veja o <a href="https://github.com/galafis/Market-Trend-Predictor#resultados-esperados" target="_blank">README.md</a>.</p>
+                <div class="image-gallery">
+                    <img src="prediction_vs_actual.png" alt="Previsão vs Real">
+                    <img src="correlation_heatmap.png" alt="Mapa de Correlação">
                 </div>
             </section>
         </div>
@@ -60,7 +98,7 @@
     
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Gabriel Demetrios Lafis. All rights reserved.</p>
+            <p>&copy; 2025 Gabriel Demetrios Lafis. Todos os direitos reservados.</p>
             <div class="contact">
                 <a href="mailto:gabrieldemetrios@gmail.com">Email</a>
                 <a href="https://linkedin.com/in/gabriel-demetrios-lafis-62197711b">LinkedIn</a>
