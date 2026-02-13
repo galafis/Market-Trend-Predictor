@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Market Trend Predictor
-Advanced time series forecasting system using multiple algorithms including ARIMA, LSTM,
-Prophet, and ensemble methods for predicting market trends and financial indicators.
+LSTM-based stock price predictor with technical indicators (RSI, MACD, Bollinger Bands).
+Fetches data via yfinance, trains an LSTM neural network, and predicts future prices.
 """
 
 import pandas as pd
@@ -16,8 +16,6 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout
 import yfinance as yf
 from datetime import datetime, timedelta
-import warnings
-warnings.filterwarnings('ignore')
 
 class MarketTrendPredictor:
     def __init__(self):
@@ -165,7 +163,7 @@ class MarketTrendPredictor:
         
         return results
     
-    def predict_future_prices(self, symbol, days_ahead=30):
+    def predict_future_prices(self, symbol, days_ahead=30, lookback_window=60):
         """Predict future prices for a given symbol."""
         if f'{symbol}_lstm' not in self.models:
             raise ValueError(f"No trained model available for symbol {symbol}")
@@ -175,11 +173,11 @@ class MarketTrendPredictor:
         data = self.data[symbol]
         
         # Prepare last sequence
-        last_sequence = data['Close'].values[-60:]  # Last 60 days
+        last_sequence = data['Close'].values[-lookback_window:]
         last_sequence_scaled = scaler.transform(last_sequence.reshape(-1, 1))
         
         predictions = []
-        current_sequence = last_sequence_scaled[-60:].reshape(1, 60, 1)
+        current_sequence = last_sequence_scaled[-lookback_window:].reshape(1, lookback_window, 1)
         
         for _ in range(days_ahead):
             next_pred = model.predict(current_sequence, verbose=0)
@@ -316,8 +314,8 @@ class MarketTrendPredictor:
                 current_price = self.data[symbol]['Close'].iloc[-1]
                 price_change_1d = ((current_price - self.data[symbol]['Close'].iloc[-2]) / 
                                  self.data[symbol]['Close'].iloc[-2] * 100)
-                price_change_7d = ((current_price - self.data[symbol]['Close'].iloc[-8]) / 
-                                 self.data[symbol]['Close'].iloc[-8] * 100)
+                price_change_7d = ((current_price - self.data[symbol]['Close'].iloc[-7]) / 
+                                 self.data[symbol]['Close'].iloc[-7] * 100)
                 
                 # Get latest technical indicators
                 latest_indicators = signals_data.iloc[-1]
