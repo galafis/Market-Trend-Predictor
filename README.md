@@ -14,6 +14,20 @@
 
 Preditor de precos de acoes baseado em LSTM com indicadores tecnicos.
 
+```mermaid
+flowchart LR
+    A[Market Data\nyfinance] --> B[Feature Engineering\nRSI / MACD / Bollinger]
+    B --> C[ML Models\nLSTM Neural Network]
+    C --> D[Predictions\nFuture Prices]
+    D --> E[Backtesting\nPerformance Metrics]
+
+    style A fill:#003B6F,color:#fff
+    style B fill:#F7931E,color:#fff
+    style C fill:#FF6F00,color:#fff
+    style D fill:#3776AB,color:#fff
+    style E fill:#0f9d58,color:#fff
+```
+
 ### O que faz
 
 Arquivo unico (`market_predictor.py`, ~394 linhas) que:
