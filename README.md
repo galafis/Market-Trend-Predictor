@@ -5,6 +5,7 @@
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.1+-F7931E.svg)](https://scikit-learn.org/)
 [![yfinance](https://img.shields.io/badge/yfinance-0.1.87+-003B6F.svg)](https://pypi.org/project/yfinance/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg?logo=docker)](Dockerfile)
 
 [Portugues](#portugues) | [English](#english)
 
